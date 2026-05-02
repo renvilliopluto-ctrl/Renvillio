@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Kasir - tes2.cpp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .menu-section {
+            margin-bottom: 30px;
+        }
+
+        .menu-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        button {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 25px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #00c851 0%, #00a029 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 200, 81, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 68, 68, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffb600 0%, #ff8c00 100%);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 182, 0, 0.4);
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        .result-box {
+            background: #e8f4f8;
+            border-left: 4px solid #0099cc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-box h3 {
+            color: #0099cc;
+            margin-bottom: 10px;
+        }
+
+        .result-box p {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-box strong {
+            color: #ff8c00;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 8px;
+            color: #155724;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            border-radius: 8px;
+            color: #721c24;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: #ddd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stock-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #856404;
+        }
+
+        .stock-out {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛒 APLIKASI KASIR</h1>
+            <p>Sistem Manajemen Produk & Transaksi Penjualan</p>
+        </header>
+
+        <div class="content">
+            <div class="info-box">
+                <strong>ℹ️ Informasi:</strong> Aplikasi ini membantu Anda mengelola produk, melakukan transaksi penjualan, dan melihat laporan dengan mudah.
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab('lihat-produk')">📋 Lihat Produk</button>
+                <button class="tab-btn" onclick="switchTab('transaksi')">💳 Transaksi</button>
+                <button class="tab-btn" onclick="switchTab('tambah-produk')">➕ Tambah Produk</button>
+            </div>
+
+            <!-- TAB 1: Lihat Produk -->
+            <div id="lihat-produk" class="tab-content active">
+                <div class="menu-section">
+                    <div class="menu-title">📋 Daftar Produk</div>
+                    <button class="btn-primary" onclick="tampilkanProduk()">Muat Daftar Produk</button>
+                    <div id="produk-list"></div>
+                </div>
+            </div>
+
+            <!-- TAB 2: Transaksi -->
+            <div id="transaksi" class="tab-content">
+                <div class="menu-section">
+                    <div class="menu-title">💳 Proses Transaksi</div>
+                    
+                    <div class="input-group">
+                        <label for="produk-select">Pilih Produk:</label>
+                        <select id="produk-select" onchange="updateStokInfo()">
+                            <option value="">-- Pilih Produk --</option>
+                        </select>
+                        <div id="stok-info"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="jumlah">Jumlah:</label>
+                        <input type="number" id="jumlah" min="1" placeholder="Masukkan jumlah">
+                    </div>
+
+                    <button class="btn-success" onclick="tambahKeKeranjang()">➕ Tambah ke Keranjang</button>
+
+                    <div id="keranjang-list"></div>
+
+                    <div class="result-box" id="total-result">
+                        <h3>💰 Total Bayar</h3>
+                        <p id="total-amount">Rp 0</p>
+                        <button class="btn-success" onclick="selesaiTransaksi()">✓ Selesaikan Transaksi</button>
+                        <button class="btn-danger" onclick="resetTransaksi()">✕ Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: Tambah Produk -->
+            <div id="tambah-produk" class="tab-content">
+                <div class="menu-section">
+                    <div class="menu-title">➕ Tambah Produk Baru</div>
+                    
+                    <div class="input-group">
+                        <label for="id-produk">ID Produk:</label>
+                        <input type="text" id="id-produk" placeholder="Contoh: P004">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="nama-produk">Nama Produk:</label>
+                        <input type="text" id="nama-produk" placeholder="Masukkan nama produk">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="harga-produk">Harga:</label>
+                        <input type="number" id="harga-produk" placeholder="Masukkan harga" min="0">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="stok-produk">Stok:</label>
+                        <input type="number" id="stok-produk" placeholder="Masukkan stok" min="0">
+                    </div>
+
+                    <button class="btn-success" onclick="tambahProduk()">✓ Simpan Produk</button>
+
+                    <div id="message"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>🛒 Aplikasi Kasir | File: tes2.cpp | © 2024</p>
+        </footer>
+    </div>
+
+    <script>
+        let keranjang = [];
+        let totalBayar = 0;
+
+        // Data Produk Dummy - Menyimpan ke LocalStorage untuk persistensi data
+        let daftarProdukData = [
+            { id: 'P001', nama: 'Produk A', harga: 10000, stok: 50 },
+            { id: 'P002', nama: 'Produk B', harga: 20000, stok: 30 },
+            { id: 'P003', nama: 'Produk C', harga: 15000, stok: 40 }
+        ];
+
+        // Load data dari LocalStorage
+        function loadDataDariStorage() {
+            const data = localStorage.getItem('daftarProdukData');
+            if (data) {
+                daftarProdukData = JSON.parse(data);
+            } else {
+                simpanDataKeStorage();
+            }
+        }
+
+        // Simpan data ke LocalStorage
+        function simpanDataKeStorage() {
+            localStorage.setItem('daftarProdukData', JSON.stringify(daftarProdukData));
+        }
+
+        // Inisialisasi Select Produk
+        function initSelectProduk() {
+            const select = document.getElementById('produk-select');
+            select.innerHTML = '<option value="">-- Pilih Produk --</option>';
+            
+            daftarProdukData.forEach(produk => {
+                const option = document.createElement('option');
+                option.value = produk.id;
+                option.textContent = `${produk.nama} - Rp ${produk.harga.toLocaleString('id-ID')} (Stok: ${produk.stok})`;
+                select.appendChild(option);
+            });
+        }
+
+        // Update Info Stok
+        function updateStokInfo() {
+            const produkId = document.getElementById('produk-select').value;
+            const stokInfoDiv = document.getElementById('stok-info');
+            
+            if (!produkId) {
+                stokInfoDiv.innerHTML = '';
+                return;
+            }
+            
+            const produk = daftarProdukData.find(p => p.id === produkId);
+            let statusStok = 'Stok tersedia';
+            let className = 'stock-warning';
+            
+            if (produk.stok === 0) {
+                statusStok = '❌ STOK HABIS!';
+                className = 'stock-warning stock-out';
+            } else if (produk.stok < 10) {
+                statusStok = '⚠️ Stok hampir habis!';
+            }
+            
+            stokInfoDiv.innerHTML = `<div class="${className}">${statusStok} Sisa stok: ${produk.stok}</div>`;
+        }
+
+        // Switch Tab
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Inisialisasi select produk saat ke tab transaksi
+            if (tabName === 'transaksi') {
+                initSelectProduk();
+            }
+        }
+
+        // Tampilkan Produk
+        function tampilkanProduk() {
+            let html = '<table><thead><tr><th>ID</th><th>Nama</th><th>Harga</th><th>Stok</th><th>Status</th></tr></thead><tbody>';
+            
+            daftarProdukData.forEach(produk => {
+                let status = '';
+                if (produk.stok === 0) {
+                    status = '❌ Habis';
+                } else if (produk.stok < 10) {
+                    status = '⚠️ Sedikit';
+                } else {
+                    status = '✓ Tersedia';
+                }
+                
+                html += `<tr>
+                    <td>${produk.id}</td>
+                    <td>${produk.nama}</td>
+                    <td>Rp ${produk.harga.toLocaleString('id-ID')}</td>
+                    <td>${produk.stok}</td>
+                    <td>${status}</td>
+                </tr>`;
+            });
+
+            html += '</tbody></table>';
+            document.getElementById('produk-list').innerHTML = html;
+        }
+
+        // Tambah ke Keranjang
+        function tambahKeKeranjang() {
+            const produkId = document.getElementById('produk-select').value;
+            const jumlah = parseInt(document.getElementById('jumlah').value);
+
+            if (!produkId || !jumlah || jumlah <= 0) {
+                alert('Silakan pilih produk dan masukkan jumlah yang valid!');
+                return;
+            }
+
+            const produk = daftarProdukData.find(p => p.id === produkId);
+            if (jumlah > produk.stok) {
+                alert('Stok tidak cukup! Stok tersedia: ' + produk.stok);
+                return;
+            }
+
+            keranjang.push({
+                id: produk.id,
+                nama: produk.nama,
+                harga: produk.harga,
+                jumlah: jumlah,
+                subtotal: produk.harga * jumlah
+            });
+
+            totalBayar += produk.harga * jumlah;
+            updateKeranjang();
+
+            document.getElementById('produk-select').value = '';
+            document.getElementById('jumlah').value = '';
+            updateStokInfo();
+        }
+
+        // Update Keranjang
+        function updateKeranjang() {
+            let html = '<h3 style="margin-top: 20px;">🛒 Keranjang Belanja</h3><table><thead><tr><th>Produk</th><th>Harga</th><th>Jumlah</th><th>Subtotal</th><th>Aksi</th></tr></thead><tbody>';
+            
+            keranjang.forEach((item, index) => {
+                html += `<tr>
+                    <td>${item.nama}</td>
+                    <td>Rp ${item.harga.toLocaleString('id-ID')}</td>
+                    <td>${item.jumlah}</td>
+                    <td>Rp ${item.subtotal.toLocaleString('id-ID')}</td>
+                    <td><button class="btn-danger" onclick="hapusKeranjang(${index})" style="width: 100%; padding: 8px;">Hapus</button></td>
+                </tr>`;
+            });
+
+            html += '</tbody></table>';
+            document.getElementById('keranjang-list').innerHTML = html;
+            document.getElementById('total-amount').textContent = `Rp ${totalBayar.toLocaleString('id-ID')}`;
+            
+            if (keranjang.length > 0) {
+                document.getElementById('total-result').classList.add('show');
+            }
+        }
+
+        // Hapus dari Keranjang
+        function hapusKeranjang(index) {
+            totalBayar -= keranjang[index].subtotal;
+            keranjang.splice(index, 1);
+            updateKeranjang();
+
+            if (keranjang.length === 0) {
+                document.getElementById('total-result').classList.remove('show');
+            }
+        }
+
+        // ⭐ SELESAIKAN TRANSAKSI DENGAN PENGURANGAN STOK
+        function selesaiTransaksi() {
+            if (keranjang.length === 0) {
+                alert('Keranjang kosong!');
+                return;
+            }
+
+            // KURANGI STOK UNTUK SETIAP ITEM DI KERANJANG ⭐⭐⭐
+            keranjang.forEach(item => {
+                for (let i = 0; i < daftarProdukData.length; i++) {
+                    if (daftarProdukData[i].id === item.id) {
+                        daftarProdukData[i].stok -= item.jumlah;
+                        console.log(`Produk ${item.nama}: Stok berkurang ${item.jumlah}, stok sekarang: ${daftarProdukData[i].stok}`);
+                        break;
+                    }
+                }
+            });
+
+            // Simpan data ke LocalStorage setelah pengurangan stok
+            simpanDataKeStorage();
+
+            const tanggal = new Date().toLocaleDateString('id-ID');
+            const waktu = new Date().toLocaleTimeString('id-ID');
+            
+            // Buat laporan transaksi
+            let laporan = `📋 LAPORAN TRANSAKSI\n`;
+            laporan += `═══════════════════════════════\n`;
+            laporan += `Tanggal: ${tanggal}\n`;
+            laporan += `Waktu: ${waktu}\n`;
+            laporan += `───────────────────────────────\n`;
+            
+            keranjang.forEach(item => {
+                laporan += `${item.nama} (x${item.jumlah})\n`;
+                laporan += `Rp ${item.subtotal.toLocaleString('id-ID')}\n\n`;
+            });
+            
+            laporan += `═══════════════════════════════\n`;
+            laporan += `✓ TOTAL: Rp ${totalBayar.toLocaleString('id-ID')}\n`;
+            laporan += `═══════════════════════════════\n`;
+            laporan += `✓ Stok telah diperbarui!`;
+            
+            alert(laporan);
+            resetTransaksi();
+            initSelectProduk(); // Update select option dengan stok terbaru
+        }
+
+        // Reset Transaksi
+        function resetTransaksi() {
+            keranjang = [];
+            totalBayar = 0;
+            document.getElementById('produk-select').value = '';
+            document.getElementById('jumlah').value = '';
+            document.getElementById('keranjang-list').innerHTML = '';
+            document.getElementById('total-result').classList.remove('show');
+            updateStokInfo();
+        }
+
+        // Tambah Produk Baru
+        function tambahProduk() {
+            const id = document.getElementById('id-produk').value;
+            const nama = document.getElementById('nama-produk').value;
+            const harga = parseInt(document.getElementById('harga-produk').value);
+            const stok = parseInt(document.getElementById('stok-produk').value);
+
+            if (!id || !nama || !harga || stok === '' || stok === null) {
+                tampilkanPesan('error', 'Semua field harus diisi!');
+                return;
+            }
+
+            // Cek ID duplikat
+            if (daftarProdukData.find(p => p.id === id)) {
+                tampilkanPesan('error', 'ID Produk sudah ada!');
+                return;
+            }
+
+            daftarProdukData.push({ id, nama, harga, stok });
+            simpanDataKeStorage(); // Simpan ke LocalStorage
+            tampilkanPesan('success', `✓ Produk "${nama}" berhasil ditambahkan!`);
+
+            document.getElementById('id-produk').value = '';
+            document.getElementById('nama-produk').value = '';
+            document.getElementById('harga-produk').value = '';
+            document.getElementById('stok-produk').value = '';
+        }
+
+        // Tampilkan Pesan
+        function tampilkanPesan(tipe, pesan) {
+            const msgBox = document.getElementById('message');
+            msgBox.innerHTML = `<div class="${tipe}-message show">${pesan}</div>`;
+            setTimeout(() => msgBox.innerHTML = '', 3000);
+        }
+
+        // Inisialisasi saat halaman dimuat
+        window.onload = function() {
+            loadDataDariStorage();
+            initSelectProduk();
+        };
+    </script>
+</body>
+</html>
